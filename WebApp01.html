@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lucida Console', monospace;
+        }
+
+        :root {
+            --primary: #000000;
+            --background: #ffffff;
+            --border: #e5e5e5;
+            --accent: #10B981;  /* Emerald green */
+            --accent-hover: #059669;
+            --section-spacing: 5rem;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: var(--background);
+        }
+
+        nav {
+            background-color: var(--background);
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+            padding: 0.5rem 2rem;
+            position: relative;
+        }
+
+        .nav-link:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: var(--border);
+        }
+
+        .nav-link[href^="https://"] {
+            color: var(--accent);
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        section {
+            padding: 6rem 2rem 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+        }
+
+        .profile-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-image-container {
+            flex: 0 0 35%;
+        }
+
+        .profile-image {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .headline {
+            margin-bottom: 1rem;
+        }
+
+        .intro {
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Resume Section */
+        .resume-section {
+            margin-bottom: var(--section-spacing);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+            margin: 0.5rem auto 0;
+        }
+
+        .resume-item {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border);
+            position: relative;
+        }
+
+        .resume-item::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            position: absolute;
+            left: -6px;
+            top: 5px;
+        }
+
+        .resume-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .resume-subtitle {
+            color: #555;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .resume-date {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .resume-description {
+            font-size: 0.9rem;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background-color: #f6f6f6;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .project-description {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .project-tag {
+            font-size: 0.7rem;
+            background-color: #f6f6f6;
+            padding: 0.2rem 0.5rem;
+        }
+
+        /* Contact Section */
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            font-family: 'Lucida Console', monospace;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Lucida Console', monospace;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+            align-self: center;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .profile-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image-container {
+                flex: 0 0 auto;
+                width: 50%;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#resume" class="nav-link">Resume</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="https://yourblog.com" class="nav-link" target="_blank">Blog</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="container">
+            <div class="profile-content">
+                <div class="profile-image-container">
+                    <img src="/api/placeholder/400/400" alt="Profile Image" class="profile-image">
+                </div>
+                <div class="profile-details">
+                    <h1 class="headline">[Your Name]</h1>
+                    <h2 class="subtitle">[Your Professional Title]</h2>
+                    <p class="intro">
+                        A passionate professional with expertise in [your field]. Focused on delivering high-quality solutions and continuously improving skills in [relevant areas].
+                    </p>
+                    <a href="#contact" class="cta-button">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume">
+        <div class="container">
+            <h2 class="section-title">Resume</h2>
+            
+            <div class="resume-section">
+                <h3>Experience</h3>
+                
+                <div class="resume-item">
+                    <div class="resume-title">[Job Title]</div>
+                    <div class="resume-subtitle">[Company Name]</div>
+                    <div class="resume-date">Jan 2023 - Present</div>
+                    <div class="resume-description">
+                        <p>Describe your responsibilities and achievements in this role. Highlight specific projects, technologies, and results.</p>
+                    </div>
+                </div>
+                
+                <div class="resume-item">
+                    <div class="resume-title">[Previous Job Title]</div>
+                    <div class="resume-subtitle">[Previous Company Name]</div>
+                    <div class="resume-date">Jun 2020 - Dec 2022</div>
+                    <div class="resume-description">
+                        <p>Describe your responsibilities and achievements in this role. Highlight specific projects, technologies, and results.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resume-section">
+                <h3>Education</h3>
+                
+                <div class="resume-item">
+                    <div class="resume-title">[Degree]</div>
+                    <div class="resume-subtitle">[University Name]</div>
+                    <div class="resume-date">2016 - 2020</div>
+                    <div class="resume-description">
+                        <p>Relevant coursework, achievements, or projects completed during your education.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resume-section">
+                <h3>Skills</h3>
+                
+                <div class="skills-container">
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Communication</span>
+                </div>
+            </div>
+            
+            <div class="resume-section">
+                <h3>Certifications</h3>
+                
+                <div class="resume-item">
+                    <div class="resume-title">[Certification Name]</div>
+                    <div class="resume-subtitle">[Issuing Organization]</div>
+                    <div class="resume-date">Apr 2022</div>
+                </div>
+                
+                <div class="resume-item">
+                    <div class="resume-title">[Certification Name]</div>
+                    <div class="resume-subtitle">[Issuing Organization]</div>
+                    <div class="resume-date">Nov 2021</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Project 1" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Project One</h3>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
+                        <p class="project-description">A brief description of the project, its purpose, and your role in developing it.</p>
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Project 2" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Project Two</h3>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML/CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">API Integration</span>
+                        </div>
+                        <p class="project-description">A brief description of the project, its purpose, and your role in developing it.</p>
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Project 3" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Project Three</h3>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Data Analysis</span>
+                            <span class="project-tag">Visualization</span>
+                        </div>
+                        <p class="project-description">A brief description of the project, its purpose, and your role in developing it.</p>
+                        <div style="text-align: center;">
+                            <a href="#" class="cta-button">View Project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="form-section">
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">GitHub</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="https://yourblog.com" class="social-link">Blog</a>
+        </div>
+        <p>&copy; 2025 [Your Name]. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            console.log('Form submitted:', data);
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
